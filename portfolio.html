@@ -1,0 +1,542 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Vaishnavi Gupta — Software Engineer</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=DM+Mono:wght@300;400;500&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --ink: #0f0f0f;
+    --paper: #f5f0e8;
+    --cream: #ede8dc;
+    --accent: #2a6e3f;
+    --accent2: #c8a85a;
+    --muted: #6b6560;
+    --border: #c8c0b0;
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--paper);
+    color: var(--ink);
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 300;
+    overflow-x: hidden;
+  }
+
+  /* ── NOISE TEXTURE ── */
+  body::before {
+    content: '';
+    position: fixed; inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.03'/%3E%3C/svg%3E");
+    pointer-events: none; z-index: 9999; opacity: 0.4;
+  }
+
+  /* ── NAV ── */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 1.5rem 4rem;
+    background: var(--paper);
+    border-bottom: 1px solid var(--border);
+    backdrop-filter: blur(8px);
+  }
+  .nav-logo {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.1rem; letter-spacing: 0.02em;
+    color: var(--ink);
+    text-decoration: none;
+  }
+  .nav-links { display: flex; gap: 2.5rem; list-style: none; }
+  .nav-links a {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.72rem; letter-spacing: 0.12em;
+    text-transform: uppercase; text-decoration: none;
+    color: var(--muted); transition: color 0.2s;
+  }
+  .nav-links a:hover { color: var(--accent); }
+
+  /* ── HERO ── */
+  #hero {
+    min-height: 100vh;
+    display: grid; grid-template-columns: 1fr 1fr;
+    padding: 0 4rem; gap: 4rem;
+    align-items: center; padding-top: 80px;
+    position: relative;
+  }
+
+  .hero-left { position: relative; }
+
+  .hero-eyebrow {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.7rem; letter-spacing: 0.2em;
+    text-transform: uppercase; color: var(--accent);
+    margin-bottom: 1.5rem;
+    opacity: 0; animation: fadeUp 0.6s 0.2s forwards;
+  }
+
+  .hero-name {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(3rem, 6vw, 5.5rem);
+    line-height: 1.05; font-weight: 700;
+    color: var(--ink);
+    opacity: 0; animation: fadeUp 0.7s 0.3s forwards;
+  }
+  .hero-name em {
+    font-style: italic; color: var(--accent);
+  }
+
+  .hero-tagline {
+    margin-top: 1.8rem;
+    font-size: 1.05rem; line-height: 1.7;
+    color: var(--muted); max-width: 420px;
+    opacity: 0; animation: fadeUp 0.7s 0.5s forwards;
+  }
+
+  .hero-cta {
+    margin-top: 2.5rem;
+    display: flex; gap: 1rem; flex-wrap: wrap;
+    opacity: 0; animation: fadeUp 0.7s 0.7s forwards;
+  }
+  .btn-primary {
+    padding: 0.85rem 2rem;
+    background: var(--accent); color: #fff;
+    font-family: 'DM Mono', monospace;
+    font-size: 0.72rem; letter-spacing: 0.12em; text-transform: uppercase;
+    text-decoration: none; border: 2px solid var(--accent);
+    transition: all 0.25s; cursor: pointer;
+  }
+  .btn-primary:hover { background: transparent; color: var(--accent); }
+  .btn-outline {
+    padding: 0.85rem 2rem;
+    background: transparent; color: var(--ink);
+    font-family: 'DM Mono', monospace;
+    font-size: 0.72rem; letter-spacing: 0.12em; text-transform: uppercase;
+    text-decoration: none; border: 2px solid var(--border);
+    transition: all 0.25s; cursor: pointer;
+  }
+  .btn-outline:hover { border-color: var(--ink); }
+
+  /* Hero Right — decorative card */
+  .hero-right {
+    display: flex; align-items: center; justify-content: center;
+    opacity: 0; animation: fadeIn 1s 0.6s forwards;
+  }
+  .hero-card {
+    width: 340px;
+    background: var(--cream);
+    border: 1px solid var(--border);
+    padding: 2.5rem;
+    position: relative;
+  }
+  .hero-card::before {
+    content: '';
+    position: absolute; top: 10px; left: 10px; right: -10px; bottom: -10px;
+    border: 1px solid var(--border); z-index: -1;
+  }
+  .card-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.65rem; letter-spacing: 0.18em; text-transform: uppercase;
+    color: var(--accent); margin-bottom: 1.2rem;
+  }
+  .card-stat { margin-bottom: 1.2rem; }
+  .stat-num {
+    font-family: 'Playfair Display', serif;
+    font-size: 2.4rem; font-weight: 700; color: var(--ink);
+    line-height: 1;
+  }
+  .stat-label {
+    font-size: 0.78rem; color: var(--muted); margin-top: 0.2rem;
+    letter-spacing: 0.04em;
+  }
+  .card-divider { border: none; border-top: 1px solid var(--border); margin: 1.2rem 0; }
+  .tech-pills { display: flex; flex-wrap: wrap; gap: 0.5rem; }
+  .pill {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.62rem; letter-spacing: 0.1em; text-transform: uppercase;
+    padding: 0.3rem 0.7rem;
+    border: 1px solid var(--border);
+    color: var(--muted); background: var(--paper);
+  }
+
+  /* ── SECTION COMMONS ── */
+  section { padding: 6rem 4rem; }
+  .section-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.65rem; letter-spacing: 0.22em; text-transform: uppercase;
+    color: var(--accent); margin-bottom: 1rem;
+  }
+  .section-title {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(2rem, 4vw, 3rem); font-weight: 700;
+    color: var(--ink); margin-bottom: 3rem;
+  }
+  .section-title em { font-style: italic; color: var(--accent); }
+
+  /* ── ABOUT ── */
+  #about { background: var(--cream); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); }
+  .about-grid { display: grid; grid-template-columns: 1fr 1.6fr; gap: 6rem; align-items: start; }
+  .about-body p {
+    font-size: 1rem; line-height: 1.85; color: var(--muted); margin-bottom: 1.2rem;
+  }
+  .about-body strong { color: var(--ink); font-weight: 500; }
+  .skills-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-top: 2rem; }
+  .skill-group {}
+  .skill-group-title {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.62rem; letter-spacing: 0.15em; text-transform: uppercase;
+    color: var(--accent2); margin-bottom: 0.6rem;
+  }
+  .skill-list { font-size: 0.85rem; color: var(--muted); line-height: 1.8; }
+
+  /* ── PROJECTS ── */
+  #projects {}
+  .projects-list { display: flex; flex-direction: column; gap: 0; }
+  .project-row {
+    display: grid; grid-template-columns: 80px 1fr auto;
+    align-items: start; gap: 2.5rem;
+    padding: 2.5rem 0; border-bottom: 1px solid var(--border);
+    transition: background 0.2s;
+  }
+  .project-row:first-child { border-top: 1px solid var(--border); }
+  .project-num {
+    font-family: 'Playfair Display', serif; font-style: italic;
+    font-size: 2rem; color: var(--border); user-select: none;
+    padding-top: 0.2rem;
+  }
+  .project-info {}
+  .project-name {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.4rem; font-weight: 700; color: var(--ink);
+    margin-bottom: 0.5rem;
+  }
+  .project-desc { font-size: 0.9rem; line-height: 1.7; color: var(--muted); max-width: 560px; }
+  .project-tags { display: flex; flex-wrap: wrap; gap: 0.4rem; margin-top: 1rem; }
+  .tag {
+    font-family: 'DM Mono', monospace; font-size: 0.6rem;
+    letter-spacing: 0.1em; text-transform: uppercase;
+    padding: 0.25rem 0.6rem; border: 1px solid var(--border); color: var(--muted);
+  }
+  .project-meta { text-align: right; padding-top: 0.3rem; }
+  .project-year {
+    font-family: 'DM Mono', monospace; font-size: 0.7rem;
+    letter-spacing: 0.1em; color: var(--muted);
+  }
+  .project-highlight {
+    display: inline-block; margin-top: 0.5rem;
+    font-size: 0.72rem; color: var(--accent2);
+    font-weight: 500;
+  }
+
+  /* ── EXPERIENCE ── */
+  #experience { background: var(--cream); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); }
+  .exp-row {
+    display: grid; grid-template-columns: 200px 1fr;
+    gap: 3rem; padding: 2rem 0; border-bottom: 1px solid var(--border);
+  }
+  .exp-row:first-of-type { border-top: 1px solid var(--border); }
+  .exp-date {
+    font-family: 'DM Mono', monospace; font-size: 0.7rem;
+    letter-spacing: 0.08em; color: var(--muted); padding-top: 0.25rem;
+  }
+  .exp-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.15rem; font-weight: 700; color: var(--ink);
+  }
+  .exp-company {
+    font-family: 'DM Mono', monospace; font-size: 0.72rem;
+    letter-spacing: 0.1em; text-transform: uppercase;
+    color: var(--accent); margin: 0.3rem 0 0.7rem;
+  }
+  .exp-desc { font-size: 0.88rem; line-height: 1.75; color: var(--muted); }
+
+  /* ── CONTACT ── */
+  #contact { text-align: center; }
+  #contact .section-title { margin-bottom: 1rem; }
+  .contact-sub { font-size: 1rem; color: var(--muted); margin-bottom: 3rem; line-height: 1.7; }
+  .contact-links { display: flex; justify-content: center; gap: 1.5rem; flex-wrap: wrap; }
+  .contact-link {
+    font-family: 'DM Mono', monospace; font-size: 0.72rem;
+    letter-spacing: 0.14em; text-transform: uppercase;
+    color: var(--ink); text-decoration: none;
+    border-bottom: 1px solid var(--border); padding-bottom: 2px;
+    transition: border-color 0.2s, color 0.2s;
+  }
+  .contact-link:hover { color: var(--accent); border-color: var(--accent); }
+
+  /* ── FOOTER ── */
+  footer {
+    border-top: 1px solid var(--border);
+    padding: 2rem 4rem;
+    display: flex; justify-content: space-between; align-items: center;
+    font-family: 'DM Mono', monospace; font-size: 0.65rem;
+    letter-spacing: 0.08em; color: var(--muted);
+  }
+
+  /* ── ANIMATIONS ── */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+  @keyframes fadeIn {
+    from { opacity: 0; }
+    to   { opacity: 1; }
+  }
+
+  /* scroll reveal */
+  .reveal {
+    opacity: 0; transform: translateY(24px);
+    transition: opacity 0.65s ease, transform 0.65s ease;
+  }
+  .reveal.visible { opacity: 1; transform: none; }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width: 900px) {
+    nav { padding: 1.2rem 1.5rem; }
+    .nav-links { gap: 1.5rem; }
+    #hero { grid-template-columns: 1fr; padding: 6rem 1.5rem 3rem; gap: 3rem; min-height: auto; }
+    .hero-right { justify-content: flex-start; }
+    section { padding: 4rem 1.5rem; }
+    .about-grid { grid-template-columns: 1fr; gap: 2.5rem; }
+    .project-row { grid-template-columns: 50px 1fr; }
+    .project-meta { display: none; }
+    .exp-row { grid-template-columns: 1fr; gap: 0.5rem; }
+    footer { flex-direction: column; gap: 0.5rem; text-align: center; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a href="#" class="nav-logo">Vaishnavi Gupta</a>
+  <ul class="nav-links">
+    <li><a href="#about">About</a></li>
+    <li><a href="#projects">Projects</a></li>
+    <li><a href="#experience">Experience</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section id="hero">
+  <div class="hero-left">
+    <p class="hero-eyebrow">Software Engineer · Final Year CS</p>
+    <h1 class="hero-name">Vaishnavi<br><em>Gupta</em></h1>
+    <p class="hero-tagline">
+      Building systems that scale — from fraud-detection ML pipelines to distributed web services. Graduating from CV Raman Global University with a strong foundation in Java, Python, and full-stack engineering.
+    </p>
+    <div class="hero-cta">
+      <a href="#projects" class="btn-primary">View Projects</a>
+      <a href="#contact" class="btn-outline">Get in Touch</a>
+    </div>
+  </div>
+  <div class="hero-right">
+    <div class="hero-card">
+      <div class="card-label">Quick Stats</div>
+      <div class="card-stat">
+        <div class="stat-num">500+</div>
+        <div class="stat-label">DSA Problems Solved (LeetCode & GFG)</div>
+      </div>
+      <hr class="card-divider">
+      <div class="card-stat">
+        <div class="stat-num">3</div>
+        <div class="stat-label">Production-grade Projects</div>
+      </div>
+      <hr class="card-divider">
+      <div class="card-label" style="margin-bottom:0.8rem">Core Stack</div>
+      <div class="tech-pills">
+        <span class="pill">Java</span>
+        <span class="pill">Python</span>
+        <span class="pill">Node.js</span>
+        <span class="pill">MongoDB</span>
+        <span class="pill">ML</span>
+        <span class="pill">React</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section id="about">
+  <div class="about-grid reveal">
+    <div>
+      <p class="section-label">About Me</p>
+      <h2 class="section-title">Building with<br><em>purpose</em></h2>
+    </div>
+    <div class="about-body">
+      <p>
+        I'm a final-year Computer Science student at <strong>CV Raman Global University</strong>, passionate about engineering software that solves real problems — whether that's preventing financial fraud through machine learning or making collaborative content creation seamless.
+      </p>
+      <p>
+        My work spans backend systems, machine learning, and full-stack development. I believe in writing clean, scalable code and learning deeply — which is why I've tackled <strong>500+ DSA problems</strong> and continuously push the boundaries of what I can build.
+      </p>
+      <div class="skills-grid">
+        <div class="skill-group">
+          <div class="skill-group-title">Languages</div>
+          <div class="skill-list">Java · Python · JavaScript<br>TypeScript · SQL · C++</div>
+        </div>
+        <div class="skill-group">
+          <div class="skill-group-title">Backend & DB</div>
+          <div class="skill-list">Node.js · Express · MongoDB<br>Redis · REST APIs</div>
+        </div>
+        <div class="skill-group">
+          <div class="skill-group-title">ML / AI</div>
+          <div class="skill-list">Scikit-learn · Pandas · NumPy<br>Feature Engineering · Classifiers</div>
+        </div>
+        <div class="skill-group">
+          <div class="skill-group-title">Tools</div>
+          <div class="skill-list">Git · Docker · Postman<br>VS Code · Linux · JUnit</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PROJECTS -->
+<section id="projects">
+  <p class="section-label reveal">Selected Work</p>
+  <h2 class="section-title reveal">Projects that<br><em>matter</em></h2>
+  <div class="projects-list">
+
+    <div class="project-row reveal">
+      <div class="project-num">01</div>
+      <div class="project-info">
+        <div class="project-name">Enterprise URL Shortener</div>
+        <div class="project-desc">
+          A scalable URL shortening service built for enterprise use — handling high-throughput link generation, custom aliases, analytics tracking, and expiry management. Designed with distributed systems principles to ensure reliability at scale.
+        </div>
+        <div class="project-tags">
+          <span class="tag">Node.js</span>
+          <span class="tag">MongoDB</span>
+          <span class="tag">Redis</span>
+          <span class="tag">REST API</span>
+          <span class="tag">System Design</span>
+        </div>
+      </div>
+      <div class="project-meta">
+        <div class="project-year">2024</div>
+        <div class="project-highlight">Backend · Distributed</div>
+      </div>
+    </div>
+
+    <div class="project-row reveal">
+      <div class="project-num">02</div>
+      <div class="project-info">
+        <div class="project-name">Credit Card Fraud Detection</div>
+        <div class="project-desc">
+          An end-to-end machine learning pipeline for detecting fraudulent transactions in real time. Addressed severe class imbalance using SMOTE and ensemble techniques, achieving high precision and recall. Includes feature engineering, model comparison, and an evaluation dashboard.
+        </div>
+        <div class="project-tags">
+          <span class="tag">Python</span>
+          <span class="tag">Scikit-learn</span>
+          <span class="tag">Pandas</span>
+          <span class="tag">SMOTE</span>
+          <span class="tag">ML Pipeline</span>
+        </div>
+      </div>
+      <div class="project-meta">
+        <div class="project-year">2024</div>
+        <div class="project-highlight">ML · FinTech</div>
+      </div>
+    </div>
+
+    <div class="project-row reveal">
+      <div class="project-num">03</div>
+      <div class="project-info">
+        <div class="project-name">Blogify</div>
+        <div class="project-desc">
+          A collaborative blogging platform built with a team of three, featuring real-time editing, user authentication, rich text publishing, and comment threads. Focused on smooth UX, clean architecture, and effective cross-team collaboration through Git workflows.
+        </div>
+        <div class="project-tags">
+          <span class="tag">Node.js</span>
+          <span class="tag">MongoDB</span>
+          <span class="tag">JavaScript</span>
+          <span class="tag">Team Project</span>
+          <span class="tag">Auth</span>
+        </div>
+      </div>
+      <div class="project-meta">
+        <div class="project-year">2023</div>
+        <div class="project-highlight">Full-Stack · Collab</div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- EXPERIENCE -->
+<section id="experience">
+  <p class="section-label reveal">Background</p>
+  <h2 class="section-title reveal">Education &amp;<br><em>Milestones</em></h2>
+
+  <div class="exp-row reveal">
+    <div class="exp-date">2021 — Present</div>
+    <div>
+      <div class="exp-title">B.Tech — Computer Science & Engineering</div>
+      <div class="exp-company">CV Raman Global University · Bhubaneswar</div>
+      <div class="exp-desc">Final-year student with a strong academic record. Coursework spans data structures & algorithms, database management, machine learning, operating systems, and software engineering principles.</div>
+    </div>
+  </div>
+
+  <div class="exp-row reveal">
+    <div class="exp-date">Ongoing</div>
+    <div>
+      <div class="exp-title">500+ DSA Problems Solved</div>
+      <div class="exp-company">LeetCode · GeeksforGeeks</div>
+      <div class="exp-desc">Consistent practice across arrays, trees, graphs, dynamic programming, and system design problems — building interview-ready algorithmic thinking.</div>
+    </div>
+  </div>
+
+  <div class="exp-row reveal">
+    <div class="exp-date">2025</div>
+    <div>
+      <div class="exp-title">Software Engineer — Full-Time (Target)</div>
+      <div class="exp-company">JP Morgan Chase & Co.</div>
+      <div class="exp-desc">Actively pursuing a full-time software engineering role, with a focus on enterprise-grade backend systems and fintech applications that align with my project experience in fraud detection and scalable services.</div>
+    </div>
+  </div>
+
+</section>
+
+<!-- CONTACT -->
+<section id="contact">
+  <p class="section-label reveal">Let's Connect</p>
+  <h2 class="section-title reveal">Open to <em>opportunities</em></h2>
+  <p class="contact-sub reveal">
+    Currently seeking full-time Software Engineer roles. <br>
+    I'd love to hear about what you're building.
+  </p>
+  <div class="contact-links reveal">
+    <a href="mailto:vaishnavi@example.com" class="contact-link">Email</a>
+    <a href="https://linkedin.com/in/vaishnavigupta" class="contact-link" target="_blank">LinkedIn</a>
+    <a href="https://github.com/vaishnavigupta" class="contact-link" target="_blank">GitHub</a>
+    <a href="https://leetcode.com/vaishnavigupta" class="contact-link" target="_blank">LeetCode</a>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <span>© 2025 Vaishnavi Gupta</span>
+  <span>CV Raman Global University · Computer Science</span>
+</footer>
+
+<script>
+  // Scroll reveal
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        e.target.classList.add('visible');
+        observer.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.12 });
+
+  document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+</script>
+</body>
+</html>
